@@ -4,7 +4,7 @@
 
 A high-performance, visually stunning portfolio built with a **Brutalist UI** aesthetic. This project combines advanced scroll-based animations with a clean, industrial design language to create a unique digital experience.
 
-![public/hero-preview.png] *(Note: Add your own hero screenshot here)*
+![Portfolio Preview](public/hero-preview.png)
 
 ---
 
