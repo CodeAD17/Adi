@@ -3,12 +3,17 @@
 import { useRef } from "react";
 import { BlurFade } from "./magicui/blur-fade";
 import { AnimatedBeam } from "./magicui/animated-beam";
+import { DotPattern } from "./magicui/dot-pattern";
+import { Particles } from "./magicui/particles";
+import { BorderBeam } from "./magicui/border-beam";
+import { cn } from "@/lib/utils";
 
 const experiences = [
     {
         company: "Startup Co.",
         role: "Full Stack Developer",
         period: "2024 - Present",
+        status: "ACTIVE",
         description:
             "Leading development of core product features and architecting scalable solutions.",
         highlights: [
@@ -16,11 +21,13 @@ const experiences = [
             "Built real-time collaboration features",
             "Mentored 3 junior developers",
         ],
+        tags: ["Next.js", "AWS", "Socket.io", "Redis"]
     },
     {
         company: "Tech Agency",
         role: "Software Engineer",
         period: "2022 - 2024",
+        status: "COMPLETED",
         description:
             "Delivered 10+ client projects spanning web, mobile, and cloud infrastructure.",
         highlights: [
@@ -28,11 +35,13 @@ const experiences = [
             "Implemented CI/CD pipelines",
             "Developed custom CMS platform",
         ],
+        tags: ["React", "Express", "Docker", "PostgreSQL"]
     },
     {
         company: "Freelance",
         role: "Independent Developer",
         period: "2021 - 2022",
+        status: "COMPLETED",
         description:
             "Built products for early-stage startups and established businesses.",
         highlights: [
@@ -40,7 +49,10 @@ const experiences = [
             "Specialized in React Native",
             "100% client satisfaction",
         ],
+        tags: ["React Native", "Firebase", "Stripe"]
     },
+    // Adding a dummy past role to fill the grid if needed, or keeping it strictly real.
+    // Keeping real data is better for portfolio integrity.
 ];
 
 export default function ExperienceSection() {
@@ -48,103 +60,171 @@ export default function ExperienceSection() {
     const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     return (
-        <section className="relative bg-background py-32 px-6 md:px-12 lg:px-24 overflow-hidden">
-            {/* Brutalist accent */}
-            <div className="absolute right-0 top-1/3 w-2 h-64 bg-accent" />
+        <section id="experience" className="relative bg-zinc-950 py-32 px-6 md:px-12 lg:px-24 overflow-hidden">
+            {/* --- LEGENDARY BACKGROUND --- */}
+            <div className="absolute inset-0 z-0">
+                <DotPattern
+                    cr={1}
+                    className={cn(
+                        "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+                        "opacity-40"
+                    )}
+                />
+                <Particles
+                    className="absolute inset-0"
+                    quantity={80}
+                    staticity={60}
+                    ease={40}
+                    color="#ffffff"
+                />
+                {/* Background "WORK" Text - Massive & Hollow */}
+                <div className="absolute bottom-20 left-0 opacity-[0.03] select-none pointer-events-none overflow-hidden">
+                    <span className="text-[20rem] md:text-[30rem] font-black font-mono leading-none tracking-tighter text-white whitespace-nowrap">
+                        WORK_
+                    </span>
+                </div>
+            </div>
 
-            <div ref={containerRef} className="relative max-w-6xl mx-auto">
-                {/* Section Header - Brutalist */}
+            <div ref={containerRef} className="relative z-10 max-w-7xl mx-auto">
+                {/* Header */}
                 <BlurFade delay={0.1}>
-                    <p className="text-subhead text-accent mb-4 font-mono">// WHERE I'VE BEEN</p>
-                </BlurFade>
-                <BlurFade delay={0.2}>
-                    <h2 className="text-display text-4xl md:text-5xl lg:text-7xl font-bold text-foreground mb-20 leading-none">
-                        EXPERIENCE<span className="text-accent">_</span>
-                    </h2>
+                    <div className="flex flex-col mb-20">
+                        <p className="text-accent font-mono text-sm tracking-widest mb-4">
+                            {"// CAREER TIMELINE"}
+                        </p>
+                        <h2 className="text-display text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-none tracking-tight">
+                            EXPERIENCE<span className="text-accent">_</span>
+                        </h2>
+                    </div>
                 </BlurFade>
 
-                {/* Experience Cards - Brutalist Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Experience Cards - Cyberpunk Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                    {/* Animated Beams connector lines (visual only, simplified) */}
+                    <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent hidden lg:block -z-10" />
+
                     {experiences.map((exp, index) => (
                         <BlurFade key={exp.company} delay={0.3 + index * 0.15}>
                             <div
                                 ref={(el) => { nodeRefs.current[index] = el; }}
-                                className="relative group h-full"
+                                className="relative group h-full flex flex-col"
                             >
-                                {/* Card with brutalist border */}
-                                <div className="relative h-full p-8 bg-zinc-900/30 border-2 border-foreground/10 hover:border-accent transition-all duration-500 overflow-hidden">
-                                    {/* Top accent bar on hover */}
-                                    <div className="absolute top-0 left-0 w-full h-1 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                                {/* Connector Dot (Desktop) */}
+                                <div className="absolute -top-[1.2rem] left-1/2 -translate-x-1/2 w-4 h-4 bg-zinc-950 border-2 border-zinc-800 rounded-full z-20 hidden lg:block group-hover:border-accent transition-colors duration-500">
+                                    <div className="absolute inset-0.5 bg-zinc-800 rounded-full group-hover:bg-accent transition-colors duration-500" />
+                                </div>
 
-                                    {/* Number indicator */}
-                                    <div className="absolute top-4 right-4 text-6xl font-bold text-foreground/5 font-mono">
-                                        0{index + 1}
+                                <div className={cn(
+                                    "relative flex-1 flex flex-col p-8 bg-zinc-900/40 backdrop-blur-sm border transition-all duration-500 overflow-hidden rounded-xl",
+                                    exp.status === "ACTIVE"
+                                        ? "border-accent/50 bg-accent/5 shadow-[0_0_30px_-10px_rgba(139,30,30,0.3)]"
+                                        : "border-white/5 hover:border-white/20 hover:bg-zinc-800/40"
+                                )}>
+
+                                    {/* Active Job Laser Border */}
+                                    {exp.status === "ACTIVE" && (
+                                        <BorderBeam
+                                            size={300}
+                                            duration={15}
+                                            delay={0}
+                                            colorFrom="#8B1E1E"
+                                            colorTo="#dc2626"
+                                            borderWidth={1.5}
+                                        />
+                                    )}
+
+                                    {/* Top Metadata Row */}
+                                    <div className="flex justify-between items-start mb-6 font-mono text-xs">
+                                        <div className="flex flex-col">
+                                            <span className="text-zinc-500 mb-1">PERIOD</span>
+                                            <span className="text-white font-bold tracking-wider">{exp.period}</span>
+                                        </div>
+                                        <div className={cn(
+                                            "px-2 py-1 rounded border tracking-wider",
+                                            exp.status === "ACTIVE"
+                                                ? "bg-red-500/10 border-red-500/50 text-red-400 animate-pulse"
+                                                : "bg-zinc-800 border-zinc-700 text-zinc-500"
+                                        )}>
+                                            {exp.status}
+                                        </div>
                                     </div>
 
-                                    {/* Period badge */}
-                                    <div className="inline-block px-3 py-1 mb-4 bg-accent/10 border border-accent/30 text-accent text-xs font-mono">
-                                        {exp.period}
-                                    </div>
-
-                                    {/* Role */}
-                                    <h3 className="text-display text-xl font-bold text-foreground mb-2">
+                                    {/* Role & Company */}
+                                    <h3 className="text-2xl font-bold text-white mb-2 tracking-tight group-hover:text-accent transition-colors duration-300">
                                         {exp.role}
                                     </h3>
-
-                                    {/* Company */}
-                                    <p className="text-sm text-muted mb-4 font-mono">
+                                    <p className="text-sm font-mono text-zinc-400 mb-6">
                                         @ {exp.company}
                                     </p>
 
                                     {/* Description */}
-                                    <p className="text-muted text-sm leading-relaxed mb-6">
+                                    <p className="text-zinc-400 text-sm leading-relaxed mb-6 flex-grow">
                                         {exp.description}
                                     </p>
 
-                                    {/* Highlights with brutalist bullets */}
-                                    <ul className="space-y-2">
-                                        {exp.highlights.map((highlight, i) => (
-                                            <li
-                                                key={highlight}
-                                                className="text-xs text-muted flex items-start gap-3"
-                                            >
-                                                <span className="w-4 h-[2px] bg-accent mt-2 shrink-0" />
-                                                <span>{highlight}</span>
-                                            </li>
+                                    {/* Tech Tags */}
+                                    <div className="flex flex-wrap gap-2 pt-6 border-t border-white/5">
+                                        {exp.tags.map(tag => (
+                                            <span key={tag} className="px-2 py-1 text-[10px] uppercase font-mono bg-white/5 text-zinc-400 rounded hover:bg-white/10 transition-colors">
+                                                {tag}
+                                            </span>
                                         ))}
-                                    </ul>
+                                    </div>
+
+                                    {/* Corner Decorations */}
+                                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-zinc-950 rotate-45 border-l border-white/10" />
                                 </div>
                             </div>
                         </BlurFade>
                     ))}
                 </div>
 
-                {/* Animated Beams connecting cards */}
+                {/* Animated Beams connections */}
                 {nodeRefs.current.length >= 2 && nodeRefs.current[0] && nodeRefs.current[1] && (
-                    <AnimatedBeam
-                        containerRef={containerRef}
-                        fromRef={{ current: nodeRefs.current[0] }}
-                        toRef={{ current: nodeRefs.current[1] }}
-                        curvature={50}
-                        pathColor="rgba(139, 30, 30, 0.1)"
-                        gradientStartColor="#8B1E1E"
-                        gradientStopColor="#dc2626"
-                        pathWidth={1}
-                    />
+                    <div className="hidden lg:block absolute inset-0 pointer-events-none">
+                        <AnimatedBeam
+                            containerRef={containerRef}
+                            fromRef={{ current: nodeRefs.current[0] }}
+                            toRef={{ current: nodeRefs.current[1] }}
+                            curvature={-20}
+                            startYOffset={10}
+                            endYOffset={10}
+                            pathColor="rgba(255, 255, 255, 0.05)"
+                            gradientStartColor="#8B1E1E"
+                            gradientStopColor="#dc2626"
+                            pathWidth={1}
+                        />
+                        {nodeRefs.current[2] && (
+                            <AnimatedBeam
+                                containerRef={containerRef}
+                                fromRef={{ current: nodeRefs.current[1] }}
+                                toRef={{ current: nodeRefs.current[2] }}
+                                curvature={20}
+                                startYOffset={-10}
+                                endYOffset={-10}
+                                pathColor="rgba(255, 255, 255, 0.05)"
+                                gradientStartColor="#8B1E1E"
+                                gradientStopColor="#dc2626"
+                                pathWidth={1}
+                            />
+                        )}
+                    </div>
                 )}
+            </div>
 
-                {/* Career progress bar */}
+            {/* Bottom Timeline Indicator */}
+            <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 mt-24">
                 <BlurFade delay={0.8}>
-                    <div className="mt-16 relative">
-                        <div className="h-[2px] bg-foreground/10 w-full" />
-                        <div className="h-[2px] bg-accent w-2/3 absolute top-0 left-0" />
-                        <div className="flex justify-between mt-4 text-xs text-muted font-mono">
-                            <span>2021</span>
-                            <span className="text-accent font-bold">PRESENT</span>
-                        </div>
+                    <div className="relative h-[2px] w-full bg-zinc-900 rounded-full overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full w-2/3 bg-gradient-to-r from-accent via-red-900 to-transparent" />
+                    </div>
+                    <div className="flex justify-between mt-2 font-mono text-[10px] text-zinc-600 uppercase tracking-widest">
+                        <span>Initiation: 2021</span>
+                        <span>Current Status: ACTIVE</span>
                     </div>
                 </BlurFade>
             </div>
+
         </section>
     );
 }
